@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 export default function SidebarLayout({ children }) {
   const navLinks = [
     { name: "Home", path: "/" },
+    { name: "Drop-in Checkout", path: "/dropin" },
     { name: "Pay by Link", path: "/paybylink" },
   ];
 
