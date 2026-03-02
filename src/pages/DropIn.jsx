@@ -65,6 +65,9 @@ export default function DropIn() {
         //   setPayment(sessionsResp.data);
         //   navigate(getRedirectUrl(response.resultCode), { replace: true });
         // },
+        onChange: (state) => {
+          console.log('stateChange', state);
+        },
         onError: (error, _component) => {
           console.error(error);
           navigate(`/status/error?reason=${error.message}`, { replace: true });
