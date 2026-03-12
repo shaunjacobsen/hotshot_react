@@ -15,7 +15,7 @@ export default function DropIn() {
   useEffect(() => {
     if (!paymentSession) {
       adyenSessionInstance
-        .post('/api/sessions', {
+        .post('/api/sessions', { // this is a call to my local back-end server, which calls Adyen's /sessions endpoint
           amount: { value: 1000, currency: 'EUR' },
           countryCode: 'NL',
           reference: 'order_' + Date.now(),
@@ -54,21 +54,6 @@ export default function DropIn() {
           sessionData: paymentSession.sessionData,
         },
         ...config,
-        // ...paymentSession,
-        // onPaymentCompleted: async (response, _component) => {
-        //   console.log('response', response);
-        //   // return setPayment(response);
-        //   // the below part is optional for sessions flow
-        //   // it is used to get the pspReference
-        //   const sessionsResp = await adyenSessionInstance.get(
-        //     `/api/session/status/${session.id}`,
-        //     // @ts-ignore
-        //     { params: { sessionResult: response.sessionResult } },
-        //   );
-        //   console.log('sessionsResp', sessionsResp.data);
-        //   setPayment(sessionsResp.data);
-        //   navigate(getRedirectUrl(response.resultCode), { replace: true });
-        // },
         onError: (error, _component) => {
           console.error(error);
           navigate(`/status/error?reason=${error.message}`, { replace: true });
