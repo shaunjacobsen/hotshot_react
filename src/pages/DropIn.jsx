@@ -9,18 +9,18 @@ export default function DropIn() {
   const [paymentSession, setPaymentSession] = useState();
   const checkoutContainer = useRef();
 
-  const shopperReference = 'TEST_123';
+  const shopperReference = 'TEST_12345';
 
   // get payment session
   useEffect(() => {
     if (!paymentSession) {
       adyenSessionInstance
         .post('/api/sessions', {
-          amount: { value: 1000, currency: 'USD' },
-          countryCode: 'US',
+          amount: { value: 1000, currency: 'EUR' },
+          countryCode: 'NL',
           reference: 'order_' + Date.now(),
-          shopperReference: shopperReference?.trim(),
           returnUrl: location.hostname,
+          store: 'ST3295P223229Q5P2RMH86SLW',
         })
         .then((data) => {
           console.log('paymentSession', data.data);
@@ -49,8 +49,12 @@ export default function DropIn() {
 
     const createCheckout = async () => {
       const checkout = await AdyenCheckout({
+        session: {
+          id: paymentSession.id,
+          sessionData: paymentSession.sessionData,
+        },
         ...config,
-        paymentSession,
+        // ...paymentSession,
         // onPaymentCompleted: async (response, _component) => {
         //   console.log('response', response);
         //   // return setPayment(response);
@@ -74,11 +78,13 @@ export default function DropIn() {
       const dropinConfig = {
         paymentMethodsConfiguration: {
           card: {
+            showStoredPaymentMethods: true,
             hasHolderName: true,
             holderNameRequired: true,
-            showStoredPaymentMethods: true,
-            enableStoreDetails: true,
           },
+          // applePay: {
+          //   domainName: '' // Set the top level hostname for the apple pay call
+          // }
         },
       };
 
