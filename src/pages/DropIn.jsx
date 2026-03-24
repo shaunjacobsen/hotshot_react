@@ -9,7 +9,7 @@ export default function DropIn() {
   const [paymentSession, setPaymentSession] = useState();
   const checkoutContainer = useRef();
 
-  const shopperReference = 'TEST_123';
+  const shopperReference = 'uuidhere';
 
   // get payment session
   useEffect(() => {
@@ -21,6 +21,8 @@ export default function DropIn() {
           reference: 'order_' + Date.now(),
           shopperReference: shopperReference?.trim(),
           returnUrl: location.hostname,
+          storePaymentMethod: true,
+          recurringProcessingModel: 'Subscription',
         })
         .then((data) => {
           console.log('paymentSession', data.data);
